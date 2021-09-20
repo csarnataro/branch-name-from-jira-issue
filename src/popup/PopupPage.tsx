@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./PopupPage.css";
-import { Button } from "./components/Button";
-import { GetBranchNameResponse, MessageType, MessageTypes } from "./messages";
+import { Button } from "../components/Button";
+import { GetBranchNameResponse, MessageType, MessageTypes } from "../messages";
 
 const PopupPage = () => {
 
