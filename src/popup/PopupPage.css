@@ -29,3 +29,8 @@ code {
   font-size: 0.75rem;
 }
 
+input[type="text"] {
+  background-color: #222;
+  border: 1px solid #555;
+  color: #ddd;
+}

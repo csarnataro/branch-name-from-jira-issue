@@ -1,27 +1,134 @@
 body {
   margin: 0;
-  background-color: #282c34;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: Verdana, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #333;
+  color: #ddd;
+  font-size: 13px;
+  line-height: 1.6;
+  width: 100%;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-weight: bold;
 }
 
-.options {
-  margin-left: 20px;
-  background-color: #282c34;
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0;  
+}
+
+.title {
+  color: #f9f9f9;
+}
+
+.header--title {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 22px;
+}
+
+.header--logo {
+  margin-right: 8px;
+  height: 24px;
+}
+
+.header--extension-name {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  padding-bottom: 16px;
+
+}
+
+.section-title {
+  font-size: 1.1em;  
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  min-width: 200px;
-  padding: 10px;
+  flex-direction: row;
+  margin: 30px 0 15px 0;
+}
+
+.section-title::after {
+  border-bottom: 1px solid #555;
+  content: "";
+  flex: 1 1;
+  border-bottom: 1px solid #d3d3d3;
+  margin: auto;
+  margin-inline-start: 10px;  
+}
+
+div.checkbox + div.checkbox {
+  margin-top: 5px;
+}
+div.checkbox {
+  max-width: 600px;
+  white-space: nowrap;
+}
+
+div.button,
+div.multivalue,
+div.inputtext {
+  margin: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;  
+}
+
+div.button > label,
+div.inputtext > label {
+  flex: 1 0 150px;
+  max-width: 300px;  
+}
+
+div.button > label + *,
+div.inputtext > label + * {
+  flex: 1 0 100px;
+  max-width: 100px;
+}
+
+#prefixes,
+div.multivalue {
+  width: 400px;
+  max-width: 400px;
+}
+
+.indent1 {
+  margin-inline-start: 25px;
+}
+
+label {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.1em;
+}
+
+input[type=checkbox] {
+  flex: none;
+  margin-inline-end: 0.8em;
+}
+
+input[type=text] {
+  background-color: #222;
+  border: 1px solid #555;
+  color: #ddd;
+}
+
+input[type=number] {
+  background-color: #222;
+  border: 1px solid #555;
+  color: #ddd;
+  max-width: 100px !important;
+}
+
+button {
+  background-color: #555;
+  background-image: none;
+  border: 1px solid #777;
+  color: #f9f9f9;  
+}
+
+button:hover {
+  background-color: #666;
+  border: 1px solid #bbb;  
 }
