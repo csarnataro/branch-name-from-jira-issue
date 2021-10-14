@@ -1,6 +1,6 @@
-import { retrieveOptions, saveOption } from "./lib/chromeLocalStorage";
-import * as Messages from "./messages";
-import { PageInfo } from "./types";
+import { retrieveOptions, saveOption } from "../lib/chromeLocalStorage";
+import * as Messages from "../messages";
+import { PageInfo } from "../types";
 
 // This file is ran as a background script
 // console.log("Hello from background script!")

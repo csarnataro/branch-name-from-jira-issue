@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { MessageTypes, GetOptionsResponse, UpdateOptionRequest } from '../messages';
-import logo from '../../public/icon32.png';
+import { MessageTypes, GetOptionsResponse, UpdateOptionRequest } from '../../messages';
+import logo from '../../../public/icon32.png';
+
+import "./options.css";
+import { MultiValueSelect } from '../../components/MultiValueSelect';
 
 const OptionPage = () => {
 
@@ -65,23 +68,10 @@ const OptionPage = () => {
             checked={useStandardPrefix}
             onChange={(event) => updatePrefixOption({ optionValue: event.currentTarget.checked })}
           />
-          <span>Add git prefixes to the branch name. E.g. <code>feat/story-001-do-something</code></span>
+          <span>Add git prefixes to the branch name. E.g. <code>feat/story-001-do-something, docs/improve-readme</code></span>
         </label>
       </div>
-
-      <div className="inputtext">
-        <input type="number" id="truncate-to" />
-        <label htmlFor="truncate-to">
-          <span>Truncate branch name to <code>n</code> characters</span>
-        </label>
-      </div>
-
-
-      <div className="multivalue">
-        <select id="prefixes" size={8} multiple/>
-        <button>- Remove selected</button>
-      </div>
-
+      <MultiValueSelect />
 
       {/* <h4 id="privacy-settings-header" className="i18n_options_privacy_settings">Section 1</h4>
 

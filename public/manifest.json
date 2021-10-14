@@ -1,5 +1,5 @@
 {
-  "name": "Branch name from Jira Issue",
+  "name": "Git branch from Jira",
   "description": "Generate a name for a git branch based on the the Jira Issue you're currently viewing in your browser.",
   "manifest_version": 3,
   "version": "0.0.1",

@@ -1,4 +1,4 @@
-import { MessageType, MessageTypes, GetPageInfoResponse } from "./messages";
+import { MessageType, MessageTypes, GetPageInfoResponse } from "../messages";
 
 // 
 const issueContainerId = 'issue.views.issue-base.foundation.breadcrumbs.breadcrumb-current-issue-container';
