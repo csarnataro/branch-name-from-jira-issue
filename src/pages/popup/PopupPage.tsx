@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "../../components/Button";
+import { BranchButton } from "../../components/BranchButton";
 import { GetBranchNameResponse, MessageType, MessageTypes } from "../../messages";
 import "./popup.css";
 
@@ -28,7 +28,7 @@ const PopupPage = () => {
         <>
         <div className="popup__result">
           {branchNames.map((branchName) => {
-            return <Button branchName={branchName} />
+            return <BranchButton branchName={branchName} />
           })}
         </div>
         </>

@@ -40,17 +40,15 @@ chrome.runtime.onMessage.addListener(
     case Messages.MessageTypes.UPDATE_OPTION_REQUEST:
       {
         const typedMessage = (message as Messages.UpdateOptionRequest)
-        saveOption(typedMessage.options).then(() => console.log('Should have saved options'));
+        saveOption(typedMessage.options)
+          .then(() => console.log('Should have saved options'))
+          .catch(err => console.error(err));
         break;
       }
 
     case Messages.MessageTypes.GET_OPTIONS_REQUEST:
       // read from localStorage
       retrieveOptions().then(result => {
-
-        console.log('******** BEGIN: background:49 ********');
-        console.dir(result, { depth: null, colors: true });
-        console.log('********   END: background:49 ********');
         // TODO: check if it's better to send a broadcast message instead of a response to the caller
         sendResponse({ type: Messages.MessageTypes.GET_OPTIONS_RESPONSE, options: result });
       });

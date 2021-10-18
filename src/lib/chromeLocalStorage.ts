@@ -1,42 +1,42 @@
 import { Options } from "../types";
 
 async function saveOption(options: Partial<Options>): Promise<void> {
-  if (options.enableStandardPrefix) {
-    await setItem('enableStandardPrefix', 'true');
-  } else {
-    await removeItem('enableStandardPrefix');
+  await checkAndSet(options, 'enableStandardPrefix', true);
+  await checkAndSet(options, 'addGitCommand', true);
+  await checkAndSet(options, 'maxBranchLength', options.maxBranchLength);
+  await checkAndSet(options, 'customPrefixes', JSON.stringify(options.customPrefixes));
+}
+
+async function checkAndSet(options: Partial<Options>, optionName: string, valueIfSet: any): Promise<void> {
+  if (Object.keys(options).includes(optionName)) {
+    const entry = Object.entries(options).find(option => option[0] === optionName);
+    if (Boolean(entry && entry.length ? entry[1] : false)) {
+      await setItem(optionName, valueIfSet);
+    } else {
+      await removeItem(optionName);
+    }
   }
-  
-  if (options.customPrefixes?.length) {
-    await setItem('customPrefixes', JSON.stringify(options.customPrefixes));
-  } else {
-    await removeItem('customPrefixes');
-  }
-  
 }
 
 async function removeItem(key: string): Promise<void> {
-  return chrome.storage.local.remove([key]);      // <-- Local storage!
+  console.log(`Removing [${key}]`);
+  return chrome.storage.local.remove([key]);
 }
 
 // Store item in local storage:
 async function setItem(key: string, value: string): Promise<void> {
   try {
-    console.log("Storing [" + key + ":" + value + "]");
-    await chrome.storage.local.remove([key]);
-    await chrome.storage.local.set({[key]: value});
-  } catch(e) {
-    console.error("Error inside setItem");
+    console.log(`Storing [${key}: ${value}]`);
+    // await chrome.storage.local.remove([key]);
+    await chrome.storage.local.set({ [key]: value });
+  } catch (e) {
+    console.error("Error in setItem");
     console.error(e);
   }
 }
 
 async function retrieveOptions(): Promise<Partial<Options>> {
-  const all: any = await getAllStorageLocalData();
-  return {
-    // customPrefixes: JSON.parse(customPrefixes || '{}'),
-    enableStandardPrefix: all['enableStandardPrefix']
-  }
+  return getAllStorageLocalData();
 
 }
 
@@ -46,10 +46,10 @@ async function getItem(key: string): Promise<any> {
   console.log('Retrieving key [' + key + ']');
   try {
     value = await chrome.storage.local.get(['enableStandardPrefix']);  // <-- Local storage!
-  } catch(e) {
+  } catch (e) {
     console.error("Error inside getItem() for key:" + key);
     console.error(e);
-    
+
   }
   console.log("Returning value: " + value);
   return value ? JSON.parse(value[key]) : null;
@@ -58,7 +58,7 @@ async function getItem(key: string): Promise<any> {
 // Reads all data out of storage.local and exposes it via a promise.
 //
 // https://developer.chrome.com/docs/extensions/reference/storage/#asynchronous-preload-from-storage
-function getAllStorageLocalData() {
+function getAllStorageLocalData(): Promise<Partial<Options>> {
   // Immediately return a promise and start asynchronous work
   return new Promise((resolve, reject) => {
     // Asynchronously fetch all data from storage.local.

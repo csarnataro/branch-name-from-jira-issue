@@ -1,58 +1,135 @@
-import React from "react";
+import React, { FormEvent, FormEventHandler, useEffect, useRef, useState } from "react";
+import styled from "@emotion/styled";
+import { Button } from "../Button/Button";
 
-import "./multivalueselect.css";
+type MultiValueSelectProps = {
+  options: string[];
+  onChange: FormEventHandler<HTMLInputElement>;
+}
 
-export const MultiValueSelect = (): JSX.Element => {
+export const MultiValueSelect = ({options }: MultiValueSelectProps): JSX.Element => {
+
+  const selectRef = useRef();
+  const [prefixes, setPrefixes] = useState(options);
+  const [currentPrefix, setCurrentPrefix] = useState('');
+
+  const addToPrefixes = (value: string) : void => {
+    setPrefixes([...prefixes, value]);
+  }
+
   return (
-    <div className="multivalueselect__container">
+    <MultiValueSelectContainer>
       <span className="multivalueselect__label">Add custom prefixes:</span>
-      <Input />
-      <br />
-      <Select option={["1", "2"]} />
-    </div>
+      <InputWithButton 
+        value={currentPrefix}
+        onAdd={(value: any) => {
+          addToPrefixes(value);
+        }}
+
+        onChange={(e: FormEvent<HTMLInputElement>) => {
+          setCurrentPrefix(e.currentTarget.value);
+          // (selectRef as any)._valueTracker?.setValue(["a"]);
+          // (e: FormEvent<HTMLInputElement>) => {
+          // return new Event('input', { bubbles: true})
+            
+          //   // var event = new Event('input', { bubbles: true });
+          //   // (selectRef.current as any).dispatchEvent(event);
+          // }
+        }}
+        />
+      <SelectWithButton options={prefixes} selectRef={selectRef} />
+    </MultiValueSelectContainer>
   );
 }
 
-const Input = () => {
+const SelectWithButton = ({options, selectRef}: any) => {
   return (
-    <div>
-      <div className="multivalueselect__input-container">
-        <input
+    <SelectContainer>
+      <StyledSelect options={options} selectRef={selectRef} />
+      <Button>Remove prefixes</Button>
+    </SelectContainer>
+  );
+}
+
+const InputWithButton = ({value, onChange, onAdd}: any) => {
+  return (
+    <InputContainer>
+      <InputInputContainer>
+        <StyledInput
+          onChange={onChange}
           className="multivalueselect__input"
           type="text"
-          value=""
+          value={value}
           placeholder="e.g. username, projectname/username" autoComplete="off" />
-      </div>
-      <div className="multivalueselect__button-container">
-        <button className="multivalueselect__button" type="submit">
-          <span className="multivalueselect__button-icon multivalueselect__button-icon--plus"></span>
-          <span className="multivalueselect__button-spacer"> </span>
-          <span className="multivalueselect__button-label">Add prefix</span></button>
-      </div>
-    </div>
+      </InputInputContainer>
+      <InputButtonContainer>
+        <Button onClick={() => onAdd(value)}><span>Add prefix</span></Button>
+      </InputButtonContainer>
+    </InputContainer>
 
   );
 }
 
-const Select = ({ options }: any) => <select multiple>
-  {options?.map((option: any) => <option>{option}</option>)}
-</select>
+const SelectField = ({ options, className, selectRef }: any) => {
+  return (
+    <select multiple className={className} ref={selectRef}>
+      {options?.map((option: any) => <option>{option}</option>)}
+    </select>
+  );
+};
 
-{/* <div>
-        <div>
-          <div style="float: left; max-width: 420px; width: 100%; margin-inline-end: 10px; padding-top: 5px">
-            <input type="text" value="" id="new-disabled-site-input" placeholder="e.g. www.example.com, *.example.net, example.org" autocomplete="off">
-          </div>
-          <div style="float: left; padding: 5px 0 10px">
-            <button id="add-disabled-site" type="submit" class="ui-button ui-corner-all ui-widget"><span class="ui-button-icon ui-icon ui-icon-plus"></span><span class="ui-button-icon-space"> </span><span class="i18n_add_domain_button">Add domain</span></button>
-          </div>
-        </div>
-        <div style="clear: both; overflow: hidden">
-          <div style="float: left; max-width: 420px; width: 100%; margin-inline-end: 10px; padding-top: 5px">
-            <select id="allowlist-select" size="10" multiple=""><option>127.0.0.1</option><option>*.arduino.cc</option><option>arduino.atlassian.net</option><option>www.beautifulcode.co</option><option>frontendtestfest.com</option><option>github.com</option><option>github.dev</option><option>calendar.google.com</option><option>mail.google.com</option><option>tagmanager.google.com</option><option>saas.hrzucchetti.it</option><option>europe.inspiredlms.com</option><option>medium.com</option><option>www.mtv.it</option><option>www.nytimes.com</option><option>www.sguazzi.org</option><option>*.sparklyunicorn.cc</option><option>supabase.io</option></select>
-          </div>
-          <div style="float: left; padding-top: 5px">
-            <button id="remove-disabled-site" class="ui-button ui-corner-all ui-widget"><span class="ui-button-icon ui-icon ui-icon-minus"></span><span class="ui-button-icon-space"> </span><span class="i18n_remove_button">Remove selected</span></button>
-          </div>
-        </div>
-      </div> */}
+const SelectContainer = styled.div`
+  display: flex;
+`;
+
+const StyledSelect = styled(SelectField)`
+  flex: 1;
+  height: 120px;
+  max-width: 400px;
+  margin-right: 8px;
+  padding: 4px;
+  font-family: Verdana,Arial,sans-serif;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: #222;
+  border: 1px solid #555;
+  color: #ddd;  
+`;
+
+const StyledInput = styled.input`
+  background-color: #222;
+  border: 1px solid #555;
+  color: #ddd;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 6px;  
+`;
+
+const MultiValueSelectContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  line-height: 1.6;
+  font-family: Verdana, Arial, sans-serif;
+  color: #ddd;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  margin-bottom: 8px;
+  float: left;
+  width: 100%;
+  margin-inline-end: 10px;
+  padding-top: 5px;
+  line-height: 1.6;
+  color: #ddd;
+`;
+
+const InputInputContainer = styled.div`
+  flex: 1;
+  max-width: 400px;
+`;
+
+const InputButtonContainer = styled.div`
+  margin-left: 10px;
+`;

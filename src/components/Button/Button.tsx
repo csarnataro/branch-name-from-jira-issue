@@ -1,31 +1,38 @@
 import React from "react";
-import copyIcon from "../../assets/icons/clipboard_copy_icon.svg";
-import "./Button.css";
+import styled from "@emotion/styled";
 
-type ButtonProps = {
-  branchName: string;
+export const Button = ({children, ...rest}: any) => {
+  return (
+    <StyledButton {...rest}>
+      {children}
+    </StyledButton>
+  );
 }
 
-export const Button = ({branchName}: ButtonProps) => {
+const StyledButton = styled.button`
+  white-space: pre;
+  padding: .4em 1em;
+  position: relative;
+  cursor: pointer;
+  vertical-align: middle;
+  text-align: center;
+  user-select: none;
+  overflow: visible;
+  font-weight: normal;
+  text-decoration: none;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  font-family: Verdana,Arial,sans-serif;
+  background-color: #555;
+  background-image: none;
+  border: 1px solid #777;
+  color: #f9f9f9;
+  height: fit-content;
 
-  const onClick = async () => {
-    chrome.runtime.sendMessage("Hello from the popup!");
-    try {
-      await navigator.clipboard.writeText(branchName)
-      window.close();
-    } catch (err) {
-      alert((err as Error).message)
-    }
-  };
-
-  return (
-    <div className="buttonContainer">
-      <button className="branchButton" onClick={onClick}>
-        <span className="branchButton__icon">
-          <img src={copyIcon} />
-        </span>
-        {branchName}
-      </button>
-    </div>
-  );
-};
+  &:hover {
+    background-color: #666;
+    border: 1px solid #bbb;    
+  }
+`;
