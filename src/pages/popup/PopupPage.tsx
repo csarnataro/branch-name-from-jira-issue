@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "@emotion/styled";
 import { BranchButton } from "../../components/BranchButton";
 import { GetBranchNameResponse, MessageType, MessageTypes } from "../../messages";
 import "./popup.css";
@@ -23,7 +24,7 @@ const PopupPage = () => {
     });
   }, []);
   return (
-    <div className="popup" >
+    <PopupContainer>
       {branchNames ?
         <>
         <div className="popup__result">
@@ -36,8 +37,20 @@ const PopupPage = () => {
           Oh, snap! Looks like this is not a valid JIRA ticket.
         </div>
       }
-    </div >
+    </PopupContainer>
   );
 };
+
+const PopupContainer = styled.div`
+  text-align: center;
+  background-color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ddd;
+  min-width: 200px;
+  padding: 10px;
+`;
 
 export default PopupPage;
