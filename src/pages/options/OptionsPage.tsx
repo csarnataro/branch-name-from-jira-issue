@@ -8,7 +8,7 @@ import { MultiValueSelect } from '../../components/MultiValueSelect';
 import { OptionsButton } from '../../components/OptionsButton';
 import { GetOptionsResponse, MessageTypes, UpdateOptionRequest } from '../../messages';
 
-const updateOptionWith = 
+const updateOptionHandler = 
   (stateSetter: Function, optionName: string, isCheckbox = false): 
     FormEventHandler<HTMLInputElement> => (event: ChangeEvent<HTMLInputElement>) => {
   try {
@@ -18,6 +18,14 @@ const updateOptionWith =
     } else {
       optionValue = event.target.value;
     }
+    updateOption(stateSetter, optionName, optionValue);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+const updateOption = (stateSetter: Function, optionName: string, optionValue: any) => {
+  try {
     stateSetter(optionValue);
     const message: UpdateOptionRequest = {
       type: MessageTypes.UPDATE_OPTION_REQUEST,
@@ -45,8 +53,11 @@ const OptionPage = () => {
         setMaxBranchLength(data?.options?.maxBranchLength);
         const customPrefixesOptions = data?.options?.customPrefixes;
         try {
-          // const parsedCustomPrefixes = JSON.parse(customPrefixesOptions);
-          // setCustomPrefixes( as string[]);
+          const parsedCustomPrefixes = customPrefixesOptions ? JSON.parse(customPrefixesOptions) as string[]: [];
+          console.log('******** BEGIN: OptionsPage:57 ********');
+          console.dir(parsedCustomPrefixes, { depth: null, colors: true });
+          console.log('********   END: OptionsPage:57 ********');
+          setCustomPrefixes(parsedCustomPrefixes);
         } catch (err) {
           console.error(`Can't parse [${customPrefixesOptions}]`);
         }
@@ -66,13 +77,13 @@ const OptionPage = () => {
       <OptionsSection title="General">
         <CheckBox
           checked={addGitCommand}
-          onChange={updateOptionWith(setAddGitCommand, 'addGitCommand', true)}
+          onChange={updateOptionHandler(setAddGitCommand, 'addGitCommand', true)}
           label={<>Add <InlineCode>git checkout -b</InlineCode> when copying to clipboard</>}
         />
         <InputNumber 
           label={<>Truncate branch name to <InlineCode>n</InlineCode> characters</>}
           value={maxBranchLength}
-          onChange={updateOptionWith(setMaxBranchLength, 'maxBranchLength')}
+          onChange={updateOptionHandler(setMaxBranchLength, 'maxBranchLength')}
         />
         <OptionsButton sectionLabel="Reset to defaults" buttonLabel="Reset" />
       </OptionsSection>
@@ -80,7 +91,7 @@ const OptionPage = () => {
       <OptionsSection title="Prefixes">
         <CheckBox
           checked={useStandardPrefix}
-          onChange={updateOptionWith(
+          onChange={updateOptionHandler(
             setUseStandardPrefix,
             'enableStandardPrefix',
             true)}
@@ -92,7 +103,9 @@ const OptionPage = () => {
         />
         <MultiValueSelect 
           options={customPrefixes} 
-          onChange={(e) => updateOptionWith(setCustomPrefixes, 'customPrefixes')(e)} />
+          onChange={(e: CustomEvent) => {
+            updateOption(setCustomPrefixes, 'customPrefixes', e.detail.prefixes)
+          }} />
       </OptionsSection>
     </OptionsContainer>
   )

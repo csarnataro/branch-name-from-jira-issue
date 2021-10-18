@@ -36,23 +36,12 @@ async function setItem(key: string, value: string): Promise<void> {
 }
 
 async function retrieveOptions(): Promise<Partial<Options>> {
-  return getAllStorageLocalData();
+  const all = await getAllStorageLocalData();
+  console.log('******** BEGIN: chromeLocalStorage:40 ********');
+  console.dir(all, { depth: null, colors: true });
+  console.log('********   END: chromeLocalStorage:40 ********');
+  return all;
 
-}
-
-// Gets item from local storage with specified key.
-async function getItem(key: string): Promise<any> {
-  let value;
-  console.log('Retrieving key [' + key + ']');
-  try {
-    value = await chrome.storage.local.get(['enableStandardPrefix']);  // <-- Local storage!
-  } catch (e) {
-    console.error("Error inside getItem() for key:" + key);
-    console.error(e);
-
-  }
-  console.log("Returning value: " + value);
-  return value ? JSON.parse(value[key]) : null;
 }
 
 // Reads all data out of storage.local and exposes it via a promise.
@@ -67,6 +56,9 @@ function getAllStorageLocalData(): Promise<Partial<Options>> {
       if (chrome.runtime.lastError) {
         return reject(chrome.runtime.lastError);
       }
+      console.log('******** BEGIN: chromeLocalStorage:59 ********');
+      console.dir(items, { depth: null, colors: true });
+      console.log('********   END: chromeLocalStorage:59 ********');
       // Pass the data retrieved from storage down the promise chain.
       resolve(items);
     });

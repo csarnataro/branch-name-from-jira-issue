@@ -4,66 +4,95 @@ import { Button } from "../Button/Button";
 
 type MultiValueSelectProps = {
   options: string[];
-  onChange: FormEventHandler<HTMLInputElement>;
+  onChange: (event: CustomEvent) => void;
 }
 
-export const MultiValueSelect = ({options }: MultiValueSelectProps): JSX.Element => {
+export const MultiValueSelect = ({ options, onChange }: MultiValueSelectProps): JSX.Element => {
 
-  const selectRef = useRef();
   const [prefixes, setPrefixes] = useState(options);
   const [currentPrefix, setCurrentPrefix] = useState('');
+  const selectRef = useRef();
 
-  const addToPrefixes = (value: string) : void => {
+  const handleOnAddClick = (value: string) => {
+    addToPrefixes(value);
+    setCurrentPrefix('');
+    const e = new CustomEvent("input", {
+      bubbles: true,
+      detail: {
+        prefixes: [...prefixes, value]
+      }
+    });
+    onChange(e);
+  }
+
+  useEffect(() => {
+    setPrefixes(options)
+  }, [options]);
+
+  const addToPrefixes = (value: string): void => {
     setPrefixes([...prefixes, value]);
+  }
+
+  const removeSelectedPrefixes = () => {
+    const options = (selectRef.current as any).options;
+
+    const selectedOptions = Object.keys(options)
+      .filter((optionKey: any) => !options[optionKey].selected)
+      .map((selectedOptionKey: any) => options[selectedOptionKey].value);
+
+    setPrefixes(selectedOptions);
+
+    for (let i = 0; i < options.length; i++) {
+      options[i].selected = false;
+    }
+
+    const e = new CustomEvent("input", {
+      bubbles: true,
+      detail: {
+        prefixes: selectedOptions,
+      }
+    });
+
+    onChange(e);
+
   }
 
   return (
     <MultiValueSelectContainer>
-      <span className="multivalueselect__label">Add custom prefixes:</span>
-      <InputWithButton 
+      <span>Add custom prefixes:</span>
+      <InputWithButton
         value={currentPrefix}
-        onAdd={(value: any) => {
-          addToPrefixes(value);
-        }}
-
+        onAddClick={handleOnAddClick}
         onChange={(e: FormEvent<HTMLInputElement>) => {
           setCurrentPrefix(e.currentTarget.value);
-          // (selectRef as any)._valueTracker?.setValue(["a"]);
-          // (e: FormEvent<HTMLInputElement>) => {
-          // return new Event('input', { bubbles: true})
-            
-          //   // var event = new Event('input', { bubbles: true });
-          //   // (selectRef.current as any).dispatchEvent(event);
-          // }
         }}
-        />
-      <SelectWithButton options={prefixes} selectRef={selectRef} />
+      />
+      <SelectWithButton selectRef={selectRef} options={prefixes} removeSelectedPrefixes={removeSelectedPrefixes} />
     </MultiValueSelectContainer>
   );
 }
 
-const SelectWithButton = ({options, selectRef}: any) => {
+const SelectWithButton = ({ options, selectRef, removeSelectedPrefixes }: any) => {
   return (
     <SelectContainer>
       <StyledSelect options={options} selectRef={selectRef} />
-      <Button>Remove prefixes</Button>
+      <Button onClick={removeSelectedPrefixes}>Remove prefixes</Button>
     </SelectContainer>
   );
 }
 
-const InputWithButton = ({value, onChange, onAdd}: any) => {
+const InputWithButton = ({ value, onChange, onAddClick }: any) => {
   return (
     <InputContainer>
       <InputInputContainer>
         <StyledInput
           onChange={onChange}
-          className="multivalueselect__input"
           type="text"
           value={value}
           placeholder="e.g. username, projectname/username" autoComplete="off" />
       </InputInputContainer>
       <InputButtonContainer>
-        <Button onClick={() => onAdd(value)}><span>Add prefix</span></Button>
+        <Button onClick={() => onAddClick(value)}><span>Add prefix</span></Button>
       </InputButtonContainer>
     </InputContainer>
 
