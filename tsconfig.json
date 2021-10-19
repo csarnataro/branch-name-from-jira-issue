@@ -11,6 +11,7 @@
         "target": "es5",
         "allowJs": true,
         "jsx": "react",
+        "baseUrl": "src",
     },
     "include": [
         "./src/**/*",

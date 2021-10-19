@@ -1,24 +1,10 @@
-import React from "react";
-import styled from "@emotion/styled";
-import { Button } from "../Button/Button";
+import React from 'react';
+import styled from '@emotion/styled';
+import Button from '../Button';
 
 type OptionsButtonProps = {
   sectionLabel?: string;
   buttonLabel: string;
-};
-
-export const OptionsButton = ({ sectionLabel, buttonLabel }: OptionsButtonProps) => {
-  return (
-    <ButtonContainer>
-      <ButtonLabel>
-        <span>{sectionLabel}</span>
-      </ButtonLabel>
-      <Button type="submit">
-        <span>{buttonLabel}</span>
-      </Button>
-    </ButtonContainer>
-
-  );
 };
 
 const ButtonLabel = styled.label`
@@ -31,3 +17,21 @@ const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
 `;
+
+const OptionsButton = ({ sectionLabel, buttonLabel }: OptionsButtonProps) => (
+  <ButtonContainer>
+    <ButtonLabel>
+      <span>{sectionLabel}</span>
+    </ButtonLabel>
+    <Button type="submit">
+      <span>{buttonLabel}</span>
+    </Button>
+  </ButtonContainer>
+
+);
+
+OptionsButton.defaultProps = {
+  sectionLabel: '',
+};
+
+export default OptionsButton;

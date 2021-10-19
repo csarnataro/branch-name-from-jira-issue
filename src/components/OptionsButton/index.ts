@@ -1,1 +1,3 @@
-export * from './OptionsButton';
+import OptionsButton from './OptionsButton';
+
+export default OptionsButton;

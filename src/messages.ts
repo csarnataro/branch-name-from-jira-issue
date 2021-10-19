@@ -1,16 +1,15 @@
-import { Options, PageInfo } from "./types";
+import { Options, PageInfo } from './types';
 
 export const enum MessageTypes {
-  GET_BRANCH_NAME_REQUEST = "GET_BRANCH_NAME_REQUEST",
-  GET_BRANCH_NAME_RESPONSE = "GET_BRANCH_NAME_RESPONSE",
-  GET_PAGE_INFO_REQUEST = "GET_PAGE_INFO_REQUEST",
-  GET_PAGE_INFO_RESPONSE = "GET_PAGE_INFO_RESPONSE",
-  GET_OPTIONS_REQUEST = "GET_OPTIONS_REQUEST",
-  GET_OPTIONS_RESPONSE = "GET_OPTIONS_RESPONSE",
-  UPDATE_OPTION_REQUEST = "UPDATE_OPTION_REQUEST",
-  UPDATE_OPTION_RESPONSE = "UPDATE_OPTION_RESPONSE",
+  GET_BRANCH_NAME_REQUEST = 'GET_BRANCH_NAME_REQUEST',
+  GET_BRANCH_NAME_RESPONSE = 'GET_BRANCH_NAME_RESPONSE',
+  GET_PAGE_INFO_REQUEST = 'GET_PAGE_INFO_REQUEST',
+  GET_PAGE_INFO_RESPONSE = 'GET_PAGE_INFO_RESPONSE',
+  GET_OPTIONS_REQUEST = 'GET_OPTIONS_REQUEST',
+  GET_OPTIONS_RESPONSE = 'GET_OPTIONS_RESPONSE',
+  UPDATE_OPTION_REQUEST = 'UPDATE_OPTION_REQUEST',
+  UPDATE_OPTION_RESPONSE = 'UPDATE_OPTION_RESPONSE',
 }
-
 interface Message {
   type: string;
 }
@@ -42,11 +41,10 @@ export interface UpdateOptionResponse extends Message {
   result: 'ok' | 'ko';
 }
 
-export type MessageType = 
-  GetBranchNameRequest | 
-  GetBranchNameResponse | 
+export type MessageType =
+  GetBranchNameRequest |
+  GetBranchNameResponse |
   GetPageInfoRequest |
   GetPageInfoResponse |
   GetOptionsRequest |
-  GetOptionsResponse
-;
+  GetOptionsResponse;

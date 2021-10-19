@@ -1,5 +1,5 @@
-import React, { FormEventHandler } from "react";
-import styled from "@emotion/styled";
+import React, { FormEventHandler } from 'react';
+import styled from '@emotion/styled';
 
 const CheckBoxContainer = styled.div`
   max-width: 600px;
@@ -25,13 +25,18 @@ type CheckBoxProps = {
   onChange?: FormEventHandler<HTMLInputElement>;
 }
 
-export const CheckBox = ({ label, checked, onChange }: CheckBoxProps) => {
-  return (
-    <CheckBoxContainer>
-      <CheckBoxLabelContainer>
-        <CheckBoxInput type="checkbox" checked={checked} onChange={onChange} />
-        <CheckBoxLabel>{label}</CheckBoxLabel>
-      </CheckBoxLabelContainer>
-    </CheckBoxContainer>
-  );
-}
+const CheckBox = ({ label, checked, onChange }: CheckBoxProps) => (
+  <CheckBoxContainer>
+    <CheckBoxLabelContainer>
+      <CheckBoxInput type="checkbox" checked={checked} onChange={onChange} />
+      <CheckBoxLabel>{label}</CheckBoxLabel>
+    </CheckBoxLabelContainer>
+  </CheckBoxContainer>
+);
+
+CheckBox.defaultProps = {
+  checked: false,
+  onChange: () => {},
+};
+
+export default CheckBox;

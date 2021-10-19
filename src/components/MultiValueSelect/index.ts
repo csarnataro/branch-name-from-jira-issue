@@ -1,1 +1,3 @@
-export * from "./MultiValueSelect";
+import MultiValueSelect from './MultiValueSelect';
+
+export default MultiValueSelect;

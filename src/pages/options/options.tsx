@@ -1,7 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import OptionsPage from "./OptionsPage";
+import OptionsPage from './OptionsPage';
 
-var mountNode = document.getElementById("options");
+const mountNode = document.getElementById('options');
 ReactDOM.render(<OptionsPage />, mountNode);
