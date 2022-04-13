@@ -8,7 +8,6 @@ type ButtonProps = {
 
 const BranchButton = ({ branchName }: ButtonProps) => {
   const onClick = async () => {
-    chrome.runtime.sendMessage('Hello from the popup!');
     try {
       await navigator.clipboard.writeText(branchName);
       window.close();

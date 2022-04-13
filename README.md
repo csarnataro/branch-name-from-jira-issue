@@ -21,5 +21,8 @@ This extension is inspired by JIRA Issue Branch Name Generator
 
 https://chrome.google.com/webstore/detail/jira-issue-branch-name-ge/apgennglojmcjggiideonbmhnadicglo
 
-For some reason that extension is not working with my company's Jira setup (e.g. we don't have URL in the form).
-That's why I decided to create this extension, hoping it can be helpful for someone.
+For some reason that extension is not working with my company's Jira setup (e.g. we are using different URLs).
+That's why I started to work on this extension, hoping it can be helpful for someone else.
+
+## Extension options
+- 

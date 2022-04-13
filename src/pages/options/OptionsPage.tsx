@@ -48,7 +48,7 @@ const OptionsSection = ({ title, children }: any) => (
 );
 
 const OptionPage = () => {
-  const [useStandardPrefix, setUseStandardPrefix] = useState(false);
+  const [useConventionalPrefix, setUseConventionalPrefix] = useState(false);
   const [addGitCommand, setAddGitCommand] = useState(false);
   const [maxBranchLength, setMaxBranchLength] = useState<number>();
   const [customPrefixes, setCustomPrefixes] = useState<string []>([]);
@@ -57,7 +57,7 @@ const OptionPage = () => {
     chrome.runtime.sendMessage({ type: MessageTypes.GET_OPTIONS_REQUEST },
       (data: GetOptionsResponse) => {
         setAddGitCommand(Boolean(data?.options?.addGitCommand));
-        setUseStandardPrefix(Boolean(data?.options?.enableStandardPrefix));
+        setUseConventionalPrefix(Boolean(data?.options?.enableConventionalPrefix));
         setMaxBranchLength(data?.options?.maxBranchLength);
         const customPrefixesOptions = data?.options?.customPrefixes;
         try {
@@ -88,6 +88,7 @@ const OptionPage = () => {
           label={(
             <>
               Add
+              {' '}
               <InlineCode>git checkout -b</InlineCode>
               {' '}
               when copying to clipboard
@@ -98,6 +99,7 @@ const OptionPage = () => {
           label={(
             <>
               Truncate branch name to
+              {' '}
               <InlineCode>n</InlineCode>
               {' '}
               characters
@@ -111,21 +113,22 @@ const OptionPage = () => {
 
       <OptionsSection title="Prefixes">
         <CheckBox
-          checked={useStandardPrefix}
+          checked={useConventionalPrefix}
           onChange={updateOptionHandler(
-            setUseStandardPrefix,
-            'enableStandardPrefix',
+            setUseConventionalPrefix,
+            'enableConventionalPrefix',
             true,
           )}
           label={(
             <>
               Add conventional git prefixes, e.g.
-              <code>
+              {' '}
+              <InlineCode bold={false}>
                 <strong>feat</strong>
                 /story-001-do-something,
                 <strong>docs/</strong>
                 improve-readme
-              </code>
+              </InlineCode>
             </>
 )}
         />
