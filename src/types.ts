@@ -7,6 +7,6 @@ export type PageInfo = {
 export type Options = {
   addGitCommand?: boolean;
   maxBranchLength?: number;
-  enableStandardPrefix?: boolean;
+  enableConventionalPrefix?: boolean;
   customPrefixes?: string;
 }

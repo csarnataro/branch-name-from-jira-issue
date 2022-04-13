@@ -28,7 +28,7 @@ const StyledButton = styled.button`
   border: solid 2px #ddd;
   font-size: 14px;
 
-  &:hover:enabled {
+  &:hover {
     border: 2px solid #F06A0A;
   }
 `;

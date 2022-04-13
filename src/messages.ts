@@ -16,7 +16,7 @@ interface Message {
 export interface GetBranchNameRequest extends Message {}
 
 export interface GetBranchNameResponse extends Message {
-  branchName: string;
+  branchNames: string[];
 }
 
 export interface GetPageInfoRequest extends Message {

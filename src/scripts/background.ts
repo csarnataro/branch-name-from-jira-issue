@@ -21,16 +21,52 @@ const getBranchType = (typeText = 'feat'): string => {
   }
 };
 
-const formatBranchName = ({ issueType, issueName, issueDescription }: PageInfo): string => {
-  const branchType = getBranchType(issueType);
-  const branchName = `${branchType}/${issueName}-${issueDescription}`
+type FormatBranchNamesPros = {
+  pageInfo: PageInfo;
+  enableConventionalPrefix: boolean;
+  maxBranchLength: number;
+}
+
+const formatBranchName = (
+  { pageInfo, enableConventionalPrefix }: FormatBranchNamesPros,
+): string => {
+  const { issueType, issueName, issueDescription } = pageInfo;
+  const branchType = enableConventionalPrefix ? `${getBranchType(issueType)}/` : '';
+  const branchName = `${branchType}${issueName}-${issueDescription}`
     // eslint-disable-next-line no-useless-escape
     .replace(/[^0-9a-z\/ \-]/gi, '')
     .trim()
     .replace(/ +/gi, ' ')
     .replace(/ /gi, '-')
     .toLowerCase();
+
   return branchName;
+};
+
+const getBranchNames = async (pageInfo: PageInfo): Promise<string[]> => {
+  const allOptions = await retrieveOptions();
+  const { enableConventionalPrefix } = allOptions;
+  const { customPrefixes: customPrefixesOptions, maxBranchLength } = allOptions;
+
+  const formattedBranchName = formatBranchName({
+    pageInfo,
+    enableConventionalPrefix: !!enableConventionalPrefix,
+    maxBranchLength: maxBranchLength ?? 0,
+  });
+  const parsedCustomPrefixes = customPrefixesOptions
+    ? JSON.parse(customPrefixesOptions) as string[]
+    : [];
+
+  if (parsedCustomPrefixes.length === 0) {
+    return [formattedBranchName];
+  }
+  return parsedCustomPrefixes.map((prefix) => {
+    const branchName = `${prefix}${prefix.endsWith('/') ? '' : '/'}${formattedBranchName}`;
+    if (maxBranchLength) {
+      return branchName.substr(0, maxBranchLength);
+    }
+    return branchName;
+  });
 };
 
 chrome.runtime.onMessage.addListener(
@@ -45,7 +81,7 @@ chrome.runtime.onMessage.addListener(
       }
 
       case Messages.MessageTypes.GET_OPTIONS_REQUEST:
-      // read from localStorage
+        // read from localStorage
         retrieveOptions().then((result) => {
           // TODO: check if it's better to send a broadcast message
           // instead of a response to the caller
@@ -69,20 +105,19 @@ chrome.runtime.onMessage.addListener(
 
         break;
       case Messages.MessageTypes.GET_PAGE_INFO_RESPONSE:
-      // do something with the info
       {
         const typedMessage = (message as Messages.GetPageInfoResponse);
-        const branchName = formatBranchName({
+        getBranchNames({
           issueType: typedMessage.pageInfo.issueType,
           issueName: typedMessage.pageInfo.issueName,
           issueDescription: typedMessage.pageInfo.issueDescription,
+        }).then((branchNames) => {
+          const response: Messages.GetBranchNameResponse = {
+            type: Messages.MessageTypes.GET_BRANCH_NAME_RESPONSE,
+            branchNames,
+          };
+          chrome.runtime.sendMessage(response);
         });
-        const response: Messages.GetBranchNameResponse = {
-          type: Messages.MessageTypes.GET_BRANCH_NAME_RESPONSE,
-          branchName,
-        };
-        chrome.runtime.sendMessage(response);
-
         break;
       }
       default:

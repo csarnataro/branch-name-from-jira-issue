@@ -1,19 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import styled from '@emotion/styled';
 import BranchButton from '../../components/BranchButton';
 import { GetBranchNameResponse, MessageType, MessageTypes } from '../../messages';
-
-const PopupContainer = styled.div`
-  text-align: center;
-  background-color: #333;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #ddd;
-  min-width: 200px;
-  padding: 10px;
-`;
+import PopupContainer from './PopupPage.styled';
 
 const PopupPage = () => {
   const [branchNames, setBranchNames] = useState<string[]>();
@@ -23,9 +11,7 @@ const PopupPage = () => {
     chrome.runtime.onMessage.addListener((message: MessageType) => {
       switch (message.type) {
         case MessageTypes.GET_BRANCH_NAME_RESPONSE:
-          setBranchNames([
-            (message as GetBranchNameResponse).branchName,
-            'test']);
+          setBranchNames((message as GetBranchNameResponse).branchNames);
           break;
         default:
           // console.log('IGNORED');
@@ -37,13 +23,13 @@ const PopupPage = () => {
       {branchNames
         ? (
           <>
-            <div className="popup__result">
+            <div>
               {branchNames.map((branchName) => <BranchButton branchName={branchName} />)}
             </div>
           </>
         )
         : (
-          <div className="popup__invalid-text">
+          <div>
             Oh, snap! Looks like this is not a valid JIRA ticket.
           </div>
         )}
