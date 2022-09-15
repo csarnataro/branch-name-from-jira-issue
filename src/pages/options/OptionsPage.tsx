@@ -1,14 +1,18 @@
 import React, {
   ChangeEvent, FormEventHandler, useEffect, useState,
 } from 'react';
+import Anchor from '../../components/Anchor';
 import logo from '../../../public/icon32.png';
+import githubLogo from '../../assets/icons/github_logo.svg';
 import CheckBox from '../../components/CheckBox';
 import { InlineCode } from '../../components/Code';
 import InputNumber from '../../components/InputNumber';
 import MultiValueSelect from '../../components/MultiValueSelect';
 import OptionsButton from '../../components/OptionsButton';
 import { GetOptionsResponse, MessageTypes, UpdateOptionRequest } from '../../messages';
-import { OptionsContainer, OptionSectionTitle, OptionsHeader } from './OptionsPage.styled';
+import {
+  GitHubIcon, OptionsContainer, OptionSectionTitle, OptionsHeader,
+} from './OptionsPage.styled';
 
 const updateOption = (stateSetter: Function, optionName: string, optionValue: any) => {
   try {
@@ -139,6 +143,13 @@ const OptionPage = () => {
           }}
         />
       </OptionsSection>
+      <OptionsSection title="Contribute">
+        <GitHubIcon src={githubLogo} />
+        <Anchor href="https://github.com/csarnataro/branch-name-from-jira-issue" target="_blank" rel="noreferrer">
+          Source code on GitHub
+        </Anchor>
+      </OptionsSection>
+
     </OptionsContainer>
   );
 };

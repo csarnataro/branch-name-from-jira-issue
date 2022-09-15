@@ -31,7 +31,13 @@ async function checkAndSet(
 async function saveOption(options: Partial<Options>): Promise<void> {
   await checkAndSet(options, 'enableConventionalPrefix', true);
   await checkAndSet(options, 'addGitCommand', true);
-  await checkAndSet(options, 'maxBranchLength', options.maxBranchLength);
+  await checkAndSet(
+    options,
+    'maxBranchLength',
+    options.maxBranchLength && options.maxBranchLength < 1
+      ? 1
+      : options.maxBranchLength,
+  );
   await checkAndSet(options, 'customPrefixes', JSON.stringify(options.customPrefixes));
 }
 
