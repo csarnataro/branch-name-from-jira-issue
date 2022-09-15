@@ -24,7 +24,6 @@ const getBranchType = (typeText = 'feat'): string => {
 type FormatBranchNamesPros = {
   pageInfo: PageInfo;
   enableConventionalPrefix: boolean;
-  maxBranchLength: number;
 }
 
 const formatBranchName = (
@@ -45,13 +44,16 @@ const formatBranchName = (
 
 const getBranchNames = async (pageInfo: PageInfo): Promise<string[]> => {
   const allOptions = await retrieveOptions();
-  const { enableConventionalPrefix } = allOptions;
-  const { customPrefixes: customPrefixesOptions, maxBranchLength } = allOptions;
+  const {
+    enableConventionalPrefix,
+    addGitCommand,
+    customPrefixes: customPrefixesOptions,
+    maxBranchLength,
+  } = allOptions;
 
   const formattedBranchName = formatBranchName({
     pageInfo,
     enableConventionalPrefix: !!enableConventionalPrefix,
-    maxBranchLength: maxBranchLength ?? 0,
   });
   const parsedCustomPrefixes = customPrefixesOptions
     ? JSON.parse(customPrefixesOptions) as string[]
@@ -62,10 +64,7 @@ const getBranchNames = async (pageInfo: PageInfo): Promise<string[]> => {
   }
   return parsedCustomPrefixes.map((prefix) => {
     const branchName = `${prefix}${prefix.endsWith('/') ? '' : '/'}${formattedBranchName}`;
-    if (maxBranchLength) {
-      return branchName.substr(0, maxBranchLength);
-    }
-    return branchName;
+    return `${addGitCommand ? 'git checkout -b ' : ''}${branchName.substring(0, maxBranchLength)}`;
   });
 };
 

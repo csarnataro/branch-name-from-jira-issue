@@ -42,7 +42,14 @@ const OptionsHeader = styled.header`
   }
 `;
 
+const GitHubIcon = styled.img`
+  height: 24px;
+  vertical-align: bottom;
+  margin-right: 8px;  
+`;
+
 export {
+  GitHubIcon,
   OptionSectionTitle,
   OptionsContainer,
   OptionsHeader,

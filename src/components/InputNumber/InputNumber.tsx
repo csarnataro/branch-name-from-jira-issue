@@ -12,7 +12,7 @@ const InputNumber = ({ label, value, onChange }: InputNumberProps) => (
     <InputNumberLabel>
       {label}
     </InputNumberLabel>
-    <InputNumberField type="number" value={value} onChange={onChange} />
+    <InputNumberField type="number" min="1" value={value} onChange={onChange} />
   </InputNumberContainer>
 );
 
