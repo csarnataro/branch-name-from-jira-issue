@@ -2,6 +2,8 @@
 
 A Chrome extension to generate a git branch name from a Jira issue.
 
+Download it from https://chrome.google.com/webstore/detail/git-branch-name-from-jira/jegpbabnkjajonljgekihmlldkklneci
+
 It works only in Jira hosted on the Atlassian domain, e.g. https://your-company.atlassian.net/jira
 
 Jira already comes with a similar built-in functionality, available in the sidebar of your ticket: `Development > Create branch`.
@@ -14,7 +16,7 @@ But the built-in functionality is quite limited in terms of configuraton. For th
 - Limit the length of the branch name
 
 ## How it works
-After you install the Chrome extension, a new icon will appear in the list of available extensions.
+After you install the Chrome extension from https://chrome.google.com/webstore/detail/git-branch-name-from-jira/jegpbabnkjajonljgekihmlldkklneci a new icon will appear in the list of available extensions.
 If you want, you can right-click on the icon and choose to pin the extension, so that it's always
 available in the browser toolbar
 
