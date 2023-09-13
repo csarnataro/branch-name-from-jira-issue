@@ -27,6 +27,14 @@ On the other hand, if you are on a page which is a valid Jira ticket, a popup wi
 on how many prefixes you have configured) and just by clicking on the branch name, the name itself will be 
 copied in the clipboard of your computer.
 
+# Changelog
+
+## [0.9.2] - 2023-09-13 - Unreleased
+### Fixed
+- Fixed [#7](https://github.com/csarnataro/branch-name-from-jira-issue/issues/7): window width shrinks to 200 pixels
+- Fixed all npm vulnerabilities
+
+
 ## Credits
 This extension is inspired by JIRA Issue Branch Name Generator
 
@@ -39,6 +47,7 @@ That's why I started to work on this extension, hoping it can be helpful for som
 Start in development mode using `npm start`. This will launch webpack in watch mode, so that every change will be re-built on the fly and available in Chrome
 
 To build the extension for the Chrome Web Store, use `npm run pack`.
+
 ## Reference
 
 - Creating a Chrome Extension with React and TypeScript
