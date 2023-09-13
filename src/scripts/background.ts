@@ -63,7 +63,8 @@ const getBranchNames = async (pageInfo: PageInfo): Promise<string[]> => {
     return [formattedBranchName];
   }
   return parsedCustomPrefixes.map((prefix) => {
-    const branchName = `${prefix}${prefix.endsWith('/') ? '' : '/'}${formattedBranchName}`;
+    let branchName = `${prefix}${prefix.endsWith('/') ? '' : '/'}${formattedBranchName}`;
+    branchName = branchName.replace(/--+/g, '-');
     return `${addGitCommand ? 'git checkout -b ' : ''}${branchName.substring(0, maxBranchLength)}`;
   });
 };
