@@ -2,7 +2,7 @@
   "name": "Git branch name from Jira",
   "description": "Generates a name for a git branch based on the the Jira Issue you're currently viewing in your browser.",
   "manifest_version": 3,
-  "version": "0.9.1",
+  "version": "__VERSION_NUMBER__",
   "icons": {
     "16": "icon16.png",
     "32": "icon32.png",

@@ -1,5 +1,9 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+// eslint-disable-next-line import/extensions
+const package = require('./package.json');
+
+const { version } = package;
 
 const config = {
   entry: {
@@ -68,7 +72,27 @@ const config = {
   },
   plugins: [
     new CopyPlugin({
-      patterns: [{ from: 'public', to: '.' }],
+      patterns: [{
+        from: 'public',
+        to: '.',
+        transform(content, absoluteFileName) {
+          if (absoluteFileName.includes('options.html') || absoluteFileName.includes('manifest.json')) {
+            let parsed = content.toString();
+            const transformation = [
+              {
+                search: '__VERSION_NUMBER__',
+                replace: version || '0.0.0',
+              },
+            ];
+
+            for (let i = 0; i < transformation.length; i += 1) {
+              parsed = parsed.replace(transformation[i].search, transformation[i].replace);
+            }
+            return Buffer.from(parsed, 'utf8');
+          }
+          return content;
+        },
+      }],
     }),
   ],
 };
