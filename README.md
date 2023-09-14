@@ -29,6 +29,11 @@ copied in the clipboard of your computer.
 
 # Changelog
 
+## [0.11.2] - 2023-09-14
+### Added
+
+Added latest git hash in options page.
+
 ## [0.11.1] - 2023-09-14
 ### Added
 
