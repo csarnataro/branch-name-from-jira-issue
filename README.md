@@ -29,6 +29,11 @@ copied in the clipboard of your computer.
 
 # Changelog
 
+## [0.11.1] - 2023-09-14
+### Added
+
+Added version number in options page (see issue [#11](https://github.com/csarnataro/branch-name-from-jira-issue/issues/11))
+
 ## [0.10.0] - 2023-09-13 - Unreleased
 - Fixed [#8](https://github.com/csarnataro/branch-name-from-jira-issue/issues/8): remove extra hyphens
 

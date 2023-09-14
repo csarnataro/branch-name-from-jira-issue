@@ -1,6 +1,6 @@
 {
   "name": "branch-name-from-jira-issue",
-  "version": "0.10.0",
+  "version": "0.11.1",
   "description": "Generates a name for a git branch based on the the Jira Issue you're currently viewing in your browser.",
   "scripts": {
     "test": "exit 0",
