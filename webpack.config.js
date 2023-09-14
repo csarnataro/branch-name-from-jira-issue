@@ -1,5 +1,7 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const childProcess = require('child_process');
+
 // eslint-disable-next-line import/extensions
 const package = require('./package.json');
 
@@ -78,10 +80,15 @@ const config = {
         transform(content, absoluteFileName) {
           if (absoluteFileName.includes('options.html') || absoluteFileName.includes('manifest.json')) {
             let parsed = content.toString();
+            const gitRev = childProcess.execSync('git rev-parse --short HEAD').toString();
             const transformation = [
               {
                 search: '__VERSION_NUMBER__',
                 replace: version || '0.0.0',
+              },
+              {
+                search: '__GIT_REVISION__',
+                replace: gitRev || 'n/a',
               },
             ];
 
