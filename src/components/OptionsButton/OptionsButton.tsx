@@ -5,14 +5,15 @@ import { ButtonContainer, ButtonLabel } from './OptionsButton.styled';
 type OptionsButtonProps = {
   sectionLabel?: string;
   buttonLabel: string;
+  onClick: () => void;
 };
 
-const OptionsButton = ({ sectionLabel, buttonLabel }: OptionsButtonProps) => (
+const OptionsButton = ({ sectionLabel, buttonLabel, onClick }: OptionsButtonProps) => (
   <ButtonContainer>
     <ButtonLabel>
       <span>{sectionLabel}</span>
     </ButtonLabel>
-    <Button type="submit">
+    <Button onClick={onClick}>
       <span>{buttonLabel}</span>
     </Button>
   </ButtonContainer>
