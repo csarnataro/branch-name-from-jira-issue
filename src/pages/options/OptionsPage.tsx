@@ -30,7 +30,7 @@ const updateOption = (stateSetter: Function, optionName: string, optionValue: an
 };
 
 const updateOptionHandler = (stateSetter: Function, optionName: string, isCheckbox = false):
-    FormEventHandler<HTMLInputElement> => (event: ChangeEvent<HTMLInputElement>) => {
+  FormEventHandler<HTMLInputElement> => (event: ChangeEvent<HTMLInputElement>) => {
   try {
     let optionValue;
     if (isCheckbox) {
@@ -55,7 +55,14 @@ const OptionPage = () => {
   const [useConventionalPrefix, setUseConventionalPrefix] = useState(false);
   const [addGitCommand, setAddGitCommand] = useState(false);
   const [maxBranchLength, setMaxBranchLength] = useState<number>();
-  const [customPrefixes, setCustomPrefixes] = useState<string []>([]);
+  const [customPrefixes, setCustomPrefixes] = useState<string[]>([]);
+
+  const resetAllOptions = () => {
+    updateOption(setAddGitCommand, 'addGitCommand', false);
+    updateOption(setMaxBranchLength, 'maxBranchLength', '');
+    updateOption(setUseConventionalPrefix, 'enableConventionalPrefix', false);
+    updateOption(setCustomPrefixes, 'customPrefixes', []);
+  };
 
   useEffect(() => {
     chrome.runtime.sendMessage({ type: MessageTypes.GET_OPTIONS_REQUEST },
@@ -97,7 +104,7 @@ const OptionPage = () => {
               {' '}
               when copying to clipboard
             </>
-)}
+          )}
         />
         <InputNumber
           label={(
@@ -108,11 +115,11 @@ const OptionPage = () => {
               {' '}
               characters
             </>
-)}
+          )}
           value={maxBranchLength}
           onChange={updateOptionHandler(setMaxBranchLength, 'maxBranchLength')}
         />
-        <OptionsButton sectionLabel="Reset to defaults" buttonLabel="Reset" />
+        <OptionsButton onClick={() => resetAllOptions()} sectionLabel="Reset to defaults" buttonLabel="Reset" />
       </OptionsSection>
 
       <OptionsSection title="Prefixes">
@@ -134,7 +141,7 @@ const OptionPage = () => {
                 improve-readme
               </InlineCode>
             </>
-)}
+          )}
         />
         <MultiValueSelect
           options={customPrefixes}
