@@ -6,12 +6,12 @@ const issueDescriptionId = 'issue.views.issue-base.foundation.summary.heading';
 
 // This file is injected as a content script
 chrome.runtime.onMessage.addListener((message: MessageType) => {
-  // console.log('Message received in content.js!', message.type);
   switch (message.type) {
     case MessageTypes.GET_PAGE_INFO_REQUEST:
       // get elements from page
-      const issueTypeAndTitleContainerElement = document.querySelector(`div[data-test-id='${issueContainerId}']`);
-      const issueDescriptionElement = document.querySelector(`h1[data-test-id='${issueDescriptionId}']`);
+      const issueTypeAndTitleContainerElement = document.querySelector(`div[data-test-id='${issueContainerId}']`) || document.querySelector(`div[data-testid='${issueContainerId}']`);
+
+      const issueDescriptionElement = document.querySelector(`h1[data-test-id='${issueDescriptionId}']`) || document.querySelector(`h1[data-testid='${issueDescriptionId}']`);
       const issueTypeImg = issueTypeAndTitleContainerElement
         ? issueTypeAndTitleContainerElement.querySelector('img')
         : '';
