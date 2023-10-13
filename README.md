@@ -29,6 +29,19 @@ copied in the clipboard of your computer.
 
 # Changelog
 
+## [1.0.1] - 2023-10-14
+### Fixed
+
+Fixed an error which caused the branch name to be empty with the latest version of Jira.
+An attribute on a couple of DOM elements have been renamed, so we were not retrieving
+them anymore using CSS selectors.
+Added a fallback for that CSS selectors, so that it should work with multiple versions of Jira.
+
+## [1.0.0] - 2023-09-23
+### Fixed
+
+Fixed "Reset" button behaviour in Options page.
+
 ## [0.11.2] - 2023-09-14
 ### Added
 
